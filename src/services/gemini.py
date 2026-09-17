@@ -46,6 +46,7 @@ if settings.FORCE_IPV6:
 
 client = genai.Client(
     api_key=settings.GEMINI_API_KEY,
+    base_url=settings.GEMINI_API_BASE,
     http_options=types.HttpOptions(
         client_args=client_args,
         async_client_args=async_client_args
