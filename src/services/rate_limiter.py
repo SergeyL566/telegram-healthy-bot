@@ -140,7 +140,7 @@ async def execute_queued_item(bot: Bot, storage, db: AsyncSession, item: AiReque
     if req_type == "medication_photo":
         import base64
         if "result" not in payload:
-            result = await gemini.recognize_medication(base64.b64decode(payload["image"]), payload["mime_type"])
+            result = await deepseek.recognize_medication(base64.b64decode(payload["image"]), payload["mime_type"])
             await log_ai_request(db, user_id=user_id, request_type=req_type)
             item.payload = {"result": result, **({"bot_category": payload["bot_category"]} if payload.get("bot_category") else {})}
             await db.commit()
@@ -245,7 +245,7 @@ async def execute_queued_item(bot: Bot, storage, db: AsyncSession, item: AiReque
 
         status_msg = await bot.send_message(chat_id, i18n_locales.get_text("food_analyzing", user_language))
         try:
-            adjusted_analysis = await gemini.adjust_food_analysis(
+            adjusted_analysis = await deepseek.adjust_food_analysis(
                 original_data=original_data,
                 correction_text=correction_text,
                 language=user_language
@@ -321,7 +321,7 @@ async def execute_queued_item(bot: Bot, storage, db: AsyncSession, item: AiReque
 
         status_msg = await bot.send_message(chat_id, i18n_locales.get_text("food_analyzing", user_language))
         try:
-            adjusted_analysis = await gemini.adjust_food_analysis(
+            adjusted_analysis = await deepseek.adjust_food_analysis(
                 original_data=original_data,
                 correction_text=correction_text,
                 language=user_language
