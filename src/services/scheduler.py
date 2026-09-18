@@ -8,7 +8,7 @@ from aiogram import Bot
 from aiogram.exceptions import TelegramAPIError, TelegramBadRequest, TelegramForbiddenError
 from src.database.connection import AsyncSessionLocal
 from src.database import crud
-from src.services import gemini, rate_limiter
+from src.services import deepseek, rate_limiter
 from src.utils import i18n_locales
 from src.utils.escape import split_message
 from src.config import settings
@@ -133,7 +133,7 @@ async def generate_and_send_report_direct(bot: Bot, db: AsyncSession, user, repo
     
     from src.services.medications import report_context
     profile_dict["medications"] = await report_context(db, user_id, start_date, end_date)
-    report = await gemini.generate_report(profile_dict, food_logs, weight_logs, report_type, user.language)
+    report = await deepseek.generate_report(profile_dict, food_logs, weight_logs, report_type, user.language)
     await rate_limiter.log_ai_request(db, user_id=user_id, request_type="generate_report")
 
     if report_type == "daily":
