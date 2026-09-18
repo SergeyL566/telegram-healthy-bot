@@ -14,7 +14,7 @@ from aiogram.fsm.context import FSMContext
 from src.database.connection import AsyncSessionLocal
 from src.database import crud
 from src.database.models import AiRequestLog, AiRequestQueue
-from src.services import gemini
+from src.services import deepseek
 from src.utils import i18n_locales
 
 logger = logging.getLogger(__name__)
