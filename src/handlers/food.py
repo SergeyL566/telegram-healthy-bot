@@ -12,7 +12,7 @@ from src.database.connection import AsyncSessionLocal
 from src.database import crud
 from src.utils import i18n_locales
 from src.keyboards import reply
-from src.services import gemini, rate_limiter
+from src.services import deepseek, rate_limiter
 from src.config import settings
 from src.services import gamification
 from src.services.ux import is_food_entry
@@ -230,7 +230,7 @@ async def process_food_input(
 
     wait_msg = await message.answer(i18n_locales.get_text("food_analyzing", user_language))
     try:
-        analysis = await gemini.analyze_food_input(
+        analysis = await deepseek.analyze_food_input(
             text_description=text_desc,
             image_bytes=image_bytes,
             images_bytes=images_bytes,
@@ -457,7 +457,7 @@ async def process_food_correction(message: Message, state: FSMContext, user_lang
 
     wait_msg = await message.answer(i18n_locales.get_text("food_analyzing", user_language))
     try:
-        adjusted_analysis = await gemini.adjust_food_analysis(
+        adjusted_analysis = await deepseek.adjust_food_analysis(
             original_data=original_analysis,
             correction_text=correction_text,
             language=user_language
@@ -774,7 +774,7 @@ async def process_meal_edit_text(message: Message, state: FSMContext, user_langu
 
     wait_msg = await message.answer(i18n_locales.get_text("food_analyzing", user_language))
     try:
-        adjusted_analysis = await gemini.adjust_food_analysis(
+        adjusted_analysis = await deepseek.adjust_food_analysis(
             original_data=original_data,
             correction_text=correction_text,
             language=user_language
