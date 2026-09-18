@@ -11,7 +11,12 @@ client = AsyncOpenAI(
 )
 
 
-async def analyze_food_photo(image_bytes: bytes, mime_type: str = "image/jpeg") -> str:
+async def analyze_food_input(
+    text_description: Optional[str] = None,
+    image_bytes: Optional[bytes] = None,
+    images_bytes: Optional[List[bytes]] = None,
+    language: str = "ru",
+) -> FoodAnalysisResponse:
     """
     Отправляет фото еды в DeepSeek и получает анализ КБЖУ.
     """
