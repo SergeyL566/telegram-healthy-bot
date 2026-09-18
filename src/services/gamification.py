@@ -520,29 +520,31 @@ async def generate_weekly_health_card(db: AsyncSession, user_id: int) -> HealthC
 
 async def gemini_generate_card_note(profile: dict, card_data: dict, language: str) -> str:
     """
-    Calls Gemini to generate a supportive weekly health review note.
+    Calls DeepSeek to generate a supportive weekly health review note.
     """
     prompt = (
         f"You are a professional empathetic health coach. Generate a weekly progress card review for a user.\n"
         f"User Profile: {profile}\n"
         f"Weekly Performance: {card_data}\n\n"
         f"INSTRUCTIONS:\n"
-        f"1. Acknowledge their scores (Overall: {card_data['overall_score']}/100, Nutrition: {card_data['categories']['nutrition']['score']}, Consistency: {card_data['categories']['consistency']['score']}, Weight Progress: {card_data['categories']['weight_progress']['score']}).\n"
+        f"1. Acknowledge their scores (Overall: {card_data['overall_score']}/100, Nutrition: {card_data['categories']['nutrition']['score']}, Consistency: {card_data['categories']['consistency']['score']}, ...).\n"
         f"2. Write in a warm, encouraging, supportive style (mental health coach persona).\n"
         f"3. Provide exactly two actionable recommendations for the upcoming week based on where they scored lowest.\n"
         f"4. Keep the message concise (max 700 characters) and ready for Telegram. Do not include titles or headings, start directly with the coach message.\n"
         f"Language: {i18n_locales.get_text('lang_' + language, language)}"
     )
-    
+
     from src.services.medications import report_instructions
     prompt += report_instructions(profile.get("medications"))
 
     try:
-        response = await gemini.call_gemini_with_retry(
-            contents=[prompt],
-            config=gemini.types.GenerateContentConfig(temperature=0.3)
+        response = await deepseek.client.chat.completions.create(
+            model=deepseek.MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+            max_tokens=700,
         )
-        note = response.text
+        note = response.choices[0].message.content
         if note:
             from src.utils.escape import clean_telegram_markdown
             note = clean_telegram_markdown(note)
