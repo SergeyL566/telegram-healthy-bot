@@ -4,7 +4,7 @@ from typing import List
 
 class Settings(BaseSettings):
     TELEGRAM_BOT_TOKEN: str
-    GEMINI_API_KEY: str
+    DEEPSEEK_API_KEY: str
     GEMINI_API_BASE: str = "https://generativelanguage.googleapis.com"
     GEMINI_MODEL: str = "gemma-4-31b-it"
     ADMIN_USER_IDS: List[int] = Field(default_factory=list)
