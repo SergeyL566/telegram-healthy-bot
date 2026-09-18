@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, and_
 from src.database import crud
 from src.database.models import FoodLog, WeightLog, Streak, Achievement, HealthCard, User
-from src.services import gemini
+from src.services import deepseek
 from src.utils import i18n_locales
 
 logger = logging.getLogger(__name__)
