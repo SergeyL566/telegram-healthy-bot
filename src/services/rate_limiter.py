@@ -182,7 +182,7 @@ async def execute_queued_item(bot: Bot, storage, db: AsyncSession, item: AiReque
 
         status_msg = await bot.send_message(chat_id, i18n_locales.get_text("food_analyzing", user_language))
         try:
-            analysis = await gemini.analyze_food_input(
+            analysis = await deepseek.analyze_food_input(
                 text_description=text_desc,
                 image_bytes=image_bytes,
                 images_bytes=images_bytes,
