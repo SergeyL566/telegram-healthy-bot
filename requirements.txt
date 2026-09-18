@@ -17,3 +17,4 @@ matplotlib>=3.8.0
 # Security floors for transitive dependencies included in the production image.
 msgpack>=1.2.1
 setuptools>=83.0.0
+openai>=1.0.0
