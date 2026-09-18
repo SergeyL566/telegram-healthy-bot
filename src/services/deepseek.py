@@ -1,6 +1,7 @@
 import base64
-import asyncio
-from typing import Optional
+import json
+from typing import Optional, List
+from pydantic import BaseModel, Field
 from openai import AsyncOpenAI
 from src.config import settings
 
